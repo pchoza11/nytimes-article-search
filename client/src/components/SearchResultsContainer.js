@@ -17,7 +17,7 @@ class SearchResultsContainer extends Component {
     };
 
     searchNYTimes = query => {
-        API.search(this.state.search)
+        API.search(query)
         .then(res => 
             // console.log(res.data.response.docs))
         this.setState({results: res.data.response.docs}))
@@ -43,16 +43,30 @@ class SearchResultsContainer extends Component {
         let oneArticle = (this.state.results.filter((item)=> {
             return item._id=== id
         }))
-        this.setState({ saved: oneArticle }, ()=>{
-        axios.post("api/articles", this.state.saved)
+        // console.log(oneArticle)
+        // this.setState({ saved: oneArticle })
+        // console.log(this.state.saved)
+
+        axios.post("api/articles", oneArticle)
         .then((res)=>{
             console.log(res)
-            this.setState({ saved: {}})
+            // this.setState({ saved: {}})
         })
-    })
+        .catch((err)=>{
+            console.log(err)
+        })
+        
+    //     this.setState({ saved: oneArticle }, ()=>{
+    //     axios.post("api/articles", this.state.saved)
+    //     .then((res)=>{
+    //         console.log(res)
+    //         this.setState({ saved: {}})
+    //     })
+    // })
     }
 
     render() {
+        console.log(this.state.saved)
         return (
             <div>
                 <SearchForm

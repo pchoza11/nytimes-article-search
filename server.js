@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const db = require("./models/articles.js")
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -17,7 +18,12 @@ if (process.env.NODE_ENV === "production") {
 
 // Define API routes here
 const routes = require("./routes/router")
-app.use(routes);
+// app.use(routes);
+
+app.post("/api/articles", function (req, res) {
+  db.create({title:req.body[0].headline.main, link: req.body[0].web_url})
+    .then((data) => { res.json(data) })
+})
 
 // Send every other request to the React app
 // Define any API routes before this runs
